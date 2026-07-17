@@ -11,8 +11,8 @@ import java.util.UUID;
 @Getter
 @NoArgsConstructor
 @ToString
-@Table(name = "prenotazioni")
-public class Prenotazione {
+@Table(name = "bookings")
+public class Booking {
     @Id
     @GeneratedValue
     @Setter(AccessLevel.NONE)
@@ -20,7 +20,7 @@ public class Prenotazione {
     private UUID id;
     @ManyToOne
     @JoinColumn(nullable = false)
-    private Evento evento;
+    private Event event;
     @ManyToOne
     @JoinColumn(name = "prenotante", nullable = false)
     private User user;
@@ -33,9 +33,9 @@ public class Prenotazione {
     private int postiPrenotati;
 
 
-    public Prenotazione(User user, Evento evento, int postiPrenotati) {
+    public Booking(User user, Event event, int postiPrenotati) {
         this.user = user;
-        this.evento = evento;
+        this.event = event;
         this.postiPrenotati = postiPrenotati;
         this.statoPrenotazione = StatoPrenotazione.ATTIVA;
         this.dataPrenotazione = LocalDate.now();
