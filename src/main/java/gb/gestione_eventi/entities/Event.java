@@ -11,8 +11,8 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @ToString
-@Table(name = "eventi")
-public class Evento {
+@Table(name = "events")
+public class Event {
 
     @Id
     @GeneratedValue
@@ -34,7 +34,7 @@ public class Evento {
     private User user;
 
 
-    public Evento(String nome, String descrizione, String luogo, LocalDate data, int postiDisponibili, User user) {
+    public Event(String nome, String descrizione, String luogo, LocalDate data, int postiDisponibili, User user) {
         this.nome = nome;
         this.descrizione = descrizione;
         this.luogo = luogo;

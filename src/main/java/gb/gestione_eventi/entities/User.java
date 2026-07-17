@@ -14,7 +14,7 @@ import java.util.UUID;
 
 
 @Entity
-@Table(name = "clienti")
+@Table(name = "users")
 @ToString
 @Getter
 @Setter
