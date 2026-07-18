@@ -2,6 +2,7 @@ package gb.gestione_eventi.services;
 
 import gb.gestione_eventi.entities.Event;
 import gb.gestione_eventi.entities.User;
+import gb.gestione_eventi.exceptions.NotFoundException;
 import gb.gestione_eventi.exceptions.ValidationException;
 import gb.gestione_eventi.payloads.EventDTO;
 import gb.gestione_eventi.repositories.EventRepository;
@@ -13,7 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -35,7 +36,7 @@ public class EventService {
         return this.eventRepository.findAll(pageable);
     }
 
-    public List<Event> findAllListed() {
-        return this.eventRepository.findAll();
+    public Event findById(UUID id) {
+        return this.eventRepository.findById(id).orElseThrow(() -> new NotFoundException("Nessun evento trovato con questo id"));
     }
 }
