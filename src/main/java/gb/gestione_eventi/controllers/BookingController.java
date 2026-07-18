@@ -5,6 +5,7 @@ import gb.gestione_eventi.entities.Event;
 import gb.gestione_eventi.entities.User;
 import gb.gestione_eventi.exceptions.ValidationException;
 import gb.gestione_eventi.payloads.BookingDTO;
+import gb.gestione_eventi.payloads.PatchBookingDTO;
 import gb.gestione_eventi.payloads.ResponseDTO;
 import gb.gestione_eventi.services.BookingService;
 import gb.gestione_eventi.services.EventService;
@@ -36,10 +37,20 @@ public class BookingController {
             List<String> errorsMessage = valid.getFieldErrors().stream().map((DefaultMessageSourceResolvable::getDefaultMessage)).toList();
             throw new ValidationException(errorsMessage);
         }
-        System.out.println(eventId);
         Event BookingEvent = this.eventService.findById(eventId);
         Booking newBooking = this.bookingService.save(user, body, BookingEvent);
         return new ResponseDTO("Prenotazione avvenuta con successo", newBooking.getId(), LocalDateTime.now());
 
+    }
+
+    // TODO fare il patch mapping per cambiare lo stato di una prenotazione da Attivo ad annullato
+    @PatchMapping("/{eventId}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseDTO findBookingAndUpdate(@AuthenticationPrincipal User user, @RequestBody PatchBookingDTO body, BindingResult valid) {
+        if (valid.hasErrors()) {
+            List<String> errorsMessage = valid.getFieldErrors().stream().map((DefaultMessageSourceResolvable::getDefaultMessage)).toList();
+            throw new ValidationException(errorsMessage);
+
+        }
     }
 }
