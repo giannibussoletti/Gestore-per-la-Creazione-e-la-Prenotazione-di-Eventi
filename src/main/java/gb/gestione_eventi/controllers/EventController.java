@@ -8,6 +8,7 @@ import gb.gestione_eventi.payloads.ResponseDTO;
 import gb.gestione_eventi.services.EventService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
@@ -35,4 +36,12 @@ public class EventController {
         return new ResponseDTO("Evento salvato correttamente", save.getId(), LocalDateTime.now());
     }
 
+
+    @GetMapping
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public Page<Event> getEvent(@RequestParam(defaultValue = "0") int page,
+                                @RequestParam(defaultValue = "5") int size,
+                                @RequestParam(defaultValue = "nome") String orderBy) {
+        return this.eventService.findAll(page, size, orderBy);
+    }
 }
