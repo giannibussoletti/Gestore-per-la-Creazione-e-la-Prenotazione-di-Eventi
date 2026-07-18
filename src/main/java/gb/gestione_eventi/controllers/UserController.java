@@ -1,23 +1,23 @@
 package gb.gestione_eventi.controllers;
 
 import gb.gestione_eventi.entities.User;
-import gb.gestione_eventi.exceptions.ValidationException;
-import gb.gestione_eventi.payloads.ResponseDTO;
-import gb.gestione_eventi.payloads.UserDTO;
-import gb.gestione_eventi.services.UserService;
+import gb.gestione_eventi.payloads.UserBookingsResponseDTO;
+import gb.gestione_eventi.services.EventService;
 import lombok.AllArgsConstructor;
-import org.springframework.context.support.DefaultMessageSourceResolvable;
-import org.springframework.http.HttpStatus;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDateTime;
-import java.util.List;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 @AllArgsConstructor
 public class UserController {
 
+    private EventService eventService;
+
+    @GetMapping("/me")
+    public UserBookingsResponseDTO findEventByUser(@AuthenticationPrincipal User user) {
+        return new UserBookingsResponseDTO(this.eventService.findEventByUser(user.getId()));
+    }
 }
