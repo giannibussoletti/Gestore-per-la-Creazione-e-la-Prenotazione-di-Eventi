@@ -46,4 +46,9 @@ public class EventService {
 
         return this.eventRepository.findEventByUser(found);
     }
+
+    public void findEventeByUserAndDelete(UUID id) {
+        Event deleting = this.findById(id);
+        this.eventRepository.delete(deleting);
+    }
 }
