@@ -19,18 +19,5 @@ import java.util.List;
 @RequestMapping("/user")
 @AllArgsConstructor
 public class UserController {
-    private UserService userService;
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public ResponseDTO save(@RequestBody @Validated UserDTO body, BindingResult valid) {
-        if (valid.hasErrors()) {
-            List<String> errorsMessage = valid.getFieldErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).toList();
-            errorsMessage.forEach(System.out::println);
-            throw new ValidationException(errorsMessage);
-        }
-        User newUser = this.userService.save(body);
-        return new ResponseDTO("Registrazione avvenuta con successo", newUser.getId(), LocalDateTime.now());
-
-    }
 }
