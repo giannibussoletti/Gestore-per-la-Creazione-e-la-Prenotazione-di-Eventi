@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -38,5 +39,11 @@ public class EventService {
 
     public Event findById(UUID id) {
         return this.eventRepository.findById(id).orElseThrow(() -> new NotFoundException("Nessun evento trovato con questo id"));
+    }
+
+    public List<Event> findEventByUser(UUID id) {
+        User found = this.userService.findById(id);
+
+        return this.eventRepository.findEventByUser(found);
     }
 }
