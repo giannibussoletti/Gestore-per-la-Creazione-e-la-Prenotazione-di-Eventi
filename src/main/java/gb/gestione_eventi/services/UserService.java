@@ -7,6 +7,7 @@ import gb.gestione_eventi.exceptions.NotFoundException;
 import gb.gestione_eventi.payloads.UserDTO;
 import gb.gestione_eventi.repositories.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -16,6 +17,7 @@ import java.util.UUID;
 public class UserService {
 
     private UserRepository userRepository;
+    private PasswordEncoder bcrypt;
 
     public User save(UserDTO body) {
 
@@ -29,7 +31,7 @@ public class UserService {
             default -> throw new WrongThreadException("I ruoli possono essere solo 'utente' o 'organizzatore'");
         }
 
-        User newUser = new User(body.name(), body.surname(), body.mail(), body.password(), body.birthDate(), role);
+        User newUser = new User(body.name(), body.surname(), body.mail(), this.bcrypt.encode(body.password()), body.birthDate(), role);
         this.userRepository.save(newUser);
         return newUser;
     }
