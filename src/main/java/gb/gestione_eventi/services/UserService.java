@@ -9,6 +9,8 @@ import gb.gestione_eventi.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 @AllArgsConstructor
 public class UserService {
@@ -34,5 +36,9 @@ public class UserService {
 
     public User findByMail(String mail) {
         return this.userRepository.findUserByMail(mail).orElseThrow(() -> new NotFoundException("L'email non risulta registrata"));
+    }
+
+    public User findById(UUID id) {
+        return this.userRepository.findById(id).orElseThrow(() -> new NotFoundException("L'utente non è presente nel Database"));
     }
 }
