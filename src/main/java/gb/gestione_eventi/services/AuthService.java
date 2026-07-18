@@ -18,7 +18,7 @@ public class AuthService {
     public String userLogin(LoginDTO body) {
         User found = this.userService.findByMail(body.mail());
         if (!body.password().equals(found.getPassword())) throw new ValidationException("La password non corrisponde");
-        return this.tTool.tokenGeneretor(found);
+        return this.tTool.tokenGenerator(found);
 
     }
 }

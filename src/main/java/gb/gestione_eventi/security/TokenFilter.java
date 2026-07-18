@@ -33,7 +33,6 @@ public class TokenFilter extends OncePerRequestFilter {
         String token = header.replace("Bearer ", "");
         this.tokenTools.tokenVerify(token);
 
-
         UUID id = this.tokenTools.extractId(token);
         User authUser = this.userService.findById(id);
         Authentication authentication = new UsernamePasswordAuthenticationToken(authUser, null, authUser.getAuthorities());
@@ -46,6 +45,6 @@ public class TokenFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        return new AntPathMatcher().match("/**", request.getServletPath());
+        return new AntPathMatcher().match("/login/**", request.getServletPath());
     }
 }
