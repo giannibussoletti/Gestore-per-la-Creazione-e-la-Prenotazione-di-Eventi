@@ -26,7 +26,7 @@ public class AuthController {
     private AuthService authService;
     private UserService userService;
 
-    @PostMapping
+    @PostMapping("/login")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public LoginResponseDTO userLogin(@RequestBody @Validated LoginDTO body, BindingResult valid) {
         if (valid.hasErrors()) {
