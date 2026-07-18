@@ -11,6 +11,7 @@ import java.util.UUID;
 @Getter
 @NoArgsConstructor
 @ToString
+@Setter
 @Table(name = "bookings")
 public class Booking {
     @Id

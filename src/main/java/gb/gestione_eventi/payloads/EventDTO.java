@@ -1,6 +1,9 @@
 package gb.gestione_eventi.payloads;
 
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
 
@@ -17,8 +20,6 @@ public record EventDTO(
         @Future(message = "la data non può essere precedente ai prossimi 3 giorni")
         LocalDate data,
         @Positive
-        @Min(value = 1, message = "La prenotazione per l'evento deve essere per almeno una persona")
-        @Max(value = 10, message = "Non si può prenotare per più di 10 persone")
         int postiDisponibili
 ) {
 }

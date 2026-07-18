@@ -13,6 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -32,5 +33,9 @@ public class EventService {
     public Page<Event> findAll(int page, int size, String orderBy) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(orderBy));
         return this.eventRepository.findAll(pageable);
+    }
+
+    public List<Event> findAllListed() {
+        return this.eventRepository.findAll();
     }
 }
