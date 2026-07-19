@@ -38,7 +38,7 @@ public class BookingService {
     }
 
     public Booking findAndUpdate(User user, UUID bookingId, PatchBookingDTO body) {
-        List<Booking> bookings = this.bookingRepository.findBookingsByUser(user);
+        List<Booking> bookings = this.bookingRepository.findBookingByUser(user);
         if (bookings.stream().noneMatch(booking -> booking.getId().equals(bookingId))) {
             throw new NotFoundException("Nessuna prenotazione trovata");
         }
@@ -58,5 +58,9 @@ public class BookingService {
         savedBooking.setStatoPrenotazione(updateStato);
         this.bookingRepository.save(savedBooking);
         return savedBooking;
+    }
+
+    public List<Booking> findAllBookingsByUser(User user) {
+        return this.bookingRepository.findBookingByUser(user);
     }
 }
