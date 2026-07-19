@@ -7,6 +7,8 @@ import lombok.*;
 import java.time.LocalDate;
 import java.util.UUID;
 
+//TODO hide information from json response
+//TODO Give endpoint role permission
 @Entity
 @Getter
 @NoArgsConstructor
