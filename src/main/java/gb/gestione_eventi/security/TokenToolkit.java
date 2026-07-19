@@ -1,7 +1,7 @@
 package gb.gestione_eventi.security;
 
 import gb.gestione_eventi.entities.User;
-import gb.gestione_eventi.exceptions.UnathorizedException;
+import gb.gestione_eventi.exceptions.UnauthorizedException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
@@ -37,7 +37,7 @@ public class TokenToolkit {
         try {
             Jwts.parser().verifyWith(Keys.hmacShaKeyFor(secret.getBytes())).build().parse(token);
         } catch (Exception ex) {
-            throw new UnathorizedException("Il token di login ha avuto un problema, per favore rieffetturare il login");
+            throw new UnauthorizedException("Il token di login ha avuto un problema, per favore rieffetturare il login");
         }
     }
 }
