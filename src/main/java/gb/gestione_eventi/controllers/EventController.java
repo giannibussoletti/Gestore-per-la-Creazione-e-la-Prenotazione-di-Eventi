@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/events")
@@ -44,4 +45,12 @@ public class EventController {
                                 @RequestParam(defaultValue = "nome") String orderBy) {
         return this.eventService.findAll(page, size, orderBy);
     }
+
+    @DeleteMapping("/me/d/{eventId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void findEventByUserAndDelete(@PathVariable UUID eventId) {
+        this.eventService.findEventByUserAndDelete(eventId);
+    }
+    // TODO Create un PUT mapping per modificare un eventuale evento creato dall'utente
+
 }

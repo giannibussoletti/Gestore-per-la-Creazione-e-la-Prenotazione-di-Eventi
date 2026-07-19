@@ -25,7 +25,7 @@ public class UserController {
     @DeleteMapping("/me/d/{eventId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void findEventByUserAndDelete(@PathVariable UUID eventId) {
-        this.eventService.findEventeByUserAndDelete(eventId);
+        this.eventService.findEventByUserAndDelete(eventId);
     }
 
 
