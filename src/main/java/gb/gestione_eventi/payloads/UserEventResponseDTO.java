@@ -4,5 +4,5 @@ import gb.gestione_eventi.entities.Event;
 
 import java.util.List;
 
-public record UserBookingsResponseDTO(List<Event> events) {
+public record UserEventResponseDTO(List<Event> events) {
 }
