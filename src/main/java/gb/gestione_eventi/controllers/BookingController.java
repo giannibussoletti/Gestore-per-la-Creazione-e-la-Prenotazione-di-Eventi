@@ -43,7 +43,6 @@ public class BookingController {
 
     }
 
-    // TODO fare il patch mapping per cambiare lo stato di una prenotazione da Attivo ad annullato
     @PatchMapping("/{bookingId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseDTO findBookingAndUpdate(@AuthenticationPrincipal User user, @RequestBody PatchBookingDTO body, BindingResult valid, @PathVariable UUID bookingId) {

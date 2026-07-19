@@ -29,6 +29,7 @@ public class Event {
     private LocalDate data;
     @Column(name = "posti_disponibili", nullable = false)
     private int postiDisponibili;
+    @Setter(AccessLevel.NONE)
     @ManyToOne
     @JoinColumn(name = "creatore", nullable = false)
     private User user;

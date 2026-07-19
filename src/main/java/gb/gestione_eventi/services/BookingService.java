@@ -26,11 +26,10 @@ public class BookingService {
 
 
     public Booking save(User user, BookingDTO body, Event event) {
-        Event found = this.eventService.findById(event.getId());
-        int postiTotali = found.getPostiDisponibili();
+        int postiTotali = event.getPostiDisponibili();
         int updatedSeats = (postiTotali - body.postiPrenotati());
-        found.setPostiDisponibili(updatedSeats);
-        this.eventService.updateEvent(found);
+        event.setPostiDisponibili(updatedSeats);
+        this.eventService.updateSeatsEvent(event);
 
 
         Booking newBooking = new Booking(user, event, body.postiPrenotati());

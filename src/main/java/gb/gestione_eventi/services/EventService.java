@@ -41,18 +41,34 @@ public class EventService {
         return this.eventRepository.findById(id).orElseThrow(() -> new NotFoundException("Nessun evento trovato con questo id"));
     }
 
-    public List<Event> findEventByUser(UUID id) {
-        User found = this.userService.findById(id);
-
-        return this.eventRepository.findEventByUser(found);
+    public List<Event> findEventByUser(User user) {
+        return this.eventRepository.findEventByUser(user);
     }
 
-    public void findEventByUserAndDelete(UUID id) {
+    public void findEventByUserAndDelete(User user, UUID id) {
+        List<Event> eventList = this.findEventByUser(user);
+        if (eventList.stream().noneMatch(event -> event.getId() == id))
+            throw new NotFoundException("Nessun Evento trovato");
         Event deleting = this.findById(id);
         this.eventRepository.delete(deleting);
     }
 
-    public void updateEvent(Event event) {
+    public void updateSeatsEvent(Event event) {
         this.eventRepository.save(event);
+    }
+
+    public void updateEvent(User user, UUID eventId, EventDTO body) {
+        List<Event> eventList = this.findEventByUser(user);
+        if (eventList.stream().noneMatch(event -> event.getId().equals(eventId)))
+            throw new NotFoundException("Nessun Evento trovato bla");
+
+        Event found = this.eventRepository.findById(eventId).orElseThrow(() -> new NotFoundException("Nessun Evento trovato"));
+        found.setPostiDisponibili(body.postiDisponibili());
+        found.setData(body.data());
+        found.setDescrizione(body.descrizione());
+        found.setLuogo(body.luogo());
+        found.setNome(body.nome());
+        this.eventRepository.save(found);
+
     }
 }
