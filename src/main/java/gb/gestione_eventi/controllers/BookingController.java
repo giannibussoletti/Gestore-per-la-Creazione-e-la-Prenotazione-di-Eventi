@@ -12,6 +12,7 @@ import gb.gestione_eventi.services.EventService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -32,6 +33,7 @@ public class BookingController {
 
     @PostMapping("/{eventId}")
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAnyAuthority('UTENTE')")
     public ResponseDTO save(@AuthenticationPrincipal User user, @Validated @RequestBody BookingDTO body, BindingResult valid, @PathVariable UUID eventId) {
         if (valid.hasErrors()) {
             List<String> errorsMessage = valid.getFieldErrors().stream().map((DefaultMessageSourceResolvable::getDefaultMessage)).toList();
@@ -45,6 +47,7 @@ public class BookingController {
 
     @PatchMapping("/{bookingId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasAnyAuthority('UTENTE')")
     public ResponseDTO findBookingAndUpdate(@AuthenticationPrincipal User user, @RequestBody PatchBookingDTO body, BindingResult valid, @PathVariable UUID bookingId) {
         if (valid.hasErrors()) {
             List<String> errorsMessage = valid.getFieldErrors().stream().map((DefaultMessageSourceResolvable::getDefaultMessage)).toList();
