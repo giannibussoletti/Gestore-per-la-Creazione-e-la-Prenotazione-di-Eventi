@@ -1,5 +1,6 @@
 package gb.gestione_eventi.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import gb.gestione_eventi.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
@@ -19,6 +20,8 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
+@JsonIgnoreProperties({"name", "surname", "mail", "password", "birthDate", "role", "accountNonExpired", "accountNonLocked", "authorities", "avatarURL", "credentialsNonExpired", "enabled"})
+
 public class User implements UserDetails {
     @Id
     @GeneratedValue

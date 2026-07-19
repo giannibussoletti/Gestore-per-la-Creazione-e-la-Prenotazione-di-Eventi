@@ -1,5 +1,6 @@
 package gb.gestione_eventi.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,6 +13,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @ToString
 @Table(name = "events")
+@JsonIgnoreProperties("user")
 public class Event {
 
     @Id
