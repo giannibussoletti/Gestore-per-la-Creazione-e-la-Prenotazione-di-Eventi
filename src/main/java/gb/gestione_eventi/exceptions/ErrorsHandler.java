@@ -56,5 +56,11 @@ public class ErrorsHandler {
         return new ErrorsDTO("La richiesta non è stata fatta correttamente, c'è un errore nel body", LocalDateTime.now());
     }
 
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorsDTO InternalServerError(Exception ex) {
+        return new ErrorsDTO("C'è stato un errore interno del server", LocalDateTime.now());
+    }
+
 
 }

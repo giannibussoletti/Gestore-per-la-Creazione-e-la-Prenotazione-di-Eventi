@@ -1,5 +1,6 @@
 package gb.gestione_eventi.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import gb.gestione_eventi.enums.StatoPrenotazione;
 import jakarta.persistence.*;
 import lombok.*;
@@ -7,7 +8,6 @@ import lombok.*;
 import java.time.LocalDate;
 import java.util.UUID;
 
-//TODO hide information from json response
 //TODO Give endpoint role permission
 @Entity
 @Getter
@@ -15,6 +15,7 @@ import java.util.UUID;
 @ToString
 @Setter
 @Table(name = "bookings")
+@JsonIgnoreProperties("user")
 public class Booking {
     @Id
     @GeneratedValue
