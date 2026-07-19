@@ -44,13 +44,15 @@ public class BookingController {
     }
 
     // TODO fare il patch mapping per cambiare lo stato di una prenotazione da Attivo ad annullato
-    @PatchMapping("/{eventId}")
-    @ResponseStatus(HttpStatus.CREATED)
-    public ResponseDTO findBookingAndUpdate(@AuthenticationPrincipal User user, @RequestBody PatchBookingDTO body, BindingResult valid) {
+    @PatchMapping("/{bookingId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public ResponseDTO findBookingAndUpdate(@AuthenticationPrincipal User user, @RequestBody PatchBookingDTO body, BindingResult valid, @PathVariable UUID bookingId) {
         if (valid.hasErrors()) {
             List<String> errorsMessage = valid.getFieldErrors().stream().map((DefaultMessageSourceResolvable::getDefaultMessage)).toList();
             throw new ValidationException(errorsMessage);
 
         }
+        Booking updatedBooking = this.bookingService.findAndUpdate(user, bookingId, body);
+        return new ResponseDTO("Prenotazione aggiornata con successo", updatedBooking.getId(), LocalDateTime.now());
     }
 }
