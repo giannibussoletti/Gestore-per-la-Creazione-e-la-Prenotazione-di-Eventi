@@ -21,9 +21,18 @@ import java.util.UUID;
 public class BookingService {
 
     private BookingRepository bookingRepository;
+    private EventService eventService;
+    private UserService userService;
 
 
     public Booking save(User user, BookingDTO body, Event event) {
+        Event found = this.eventService.findById(event.getId());
+        int postiTotali = found.getPostiDisponibili();
+        int updatedSeats = (postiTotali - body.postiPrenotati());
+        found.setPostiDisponibili(updatedSeats);
+        this.eventService.updateEvent(found);
+
+
         Booking newBooking = new Booking(user, event, body.postiPrenotati());
         // TODO la prenotazione deve togliere il numero di posti prenotati dall'evento nel database
         return this.bookingRepository.save(newBooking);
