@@ -51,10 +51,13 @@ Il progetto utilizza un file esterno per proteggere le credenziali sensibili.
 2. Crea un nuovo file e chiamalo esattamente **`env.properties`**.
 3. Incolla all'interno di questo file la seguente configurazione, sostituendo i valori con i tuoi:
 
-PORT=PORTA_A_SCELTA(Es. 5000 )
+PORT=PORTA_A_SCELTA(Es. 5000)
 DB_URL=jdbc:postgresql://localhost:PORTA_A_SCELTA/nome_del_tuo_database
+
 DB_USERNAME=postgres
+
 DB_PASSWORD=la_tua_password_di_postgres
+
 JWT_SECRET=inserisci_qui_una_chiave_segreta_molto_lunga_e_complessa_per_i_token
 
 ### 4. Avvio dell'Applicazione
