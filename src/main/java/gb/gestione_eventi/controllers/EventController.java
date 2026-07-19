@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +28,7 @@ public class EventController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAnyAuthority('ORGANIZZATORE')")
     public ResponseDTO save(@AuthenticationPrincipal User user, @RequestBody EventDTO body, BindingResult valid) {
         if (valid.hasErrors()) {
             List<String> errorsMessage = valid.getFieldErrors().stream().map((DefaultMessageSourceResolvable::getDefaultMessage)).toList();
@@ -39,18 +41,21 @@ public class EventController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.ACCEPTED)
+    @PreAuthorize("hasAnyAuthority('UTENTE', 'ORGANIZZATORE')")
     public Page<Event> getEvent(@RequestParam(defaultValue = "0") int page,
                                 @RequestParam(defaultValue = "5") int size,
                                 @RequestParam(defaultValue = "nome") String orderBy) {
         return this.eventService.findAll(page, size, orderBy);
     }
 
+    @PreAuthorize("hasAnyAuthority('ORGANIZZATORE')")
     @DeleteMapping("/me/d/{eventId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void findEventByUserAndDelete(@AuthenticationPrincipal User user, @PathVariable UUID eventId) {
         this.eventService.findEventByUserAndDelete(user, eventId);
     }
 
+    @PreAuthorize("hasAnyAuthority('ORGANIZZATORE')")
     @PutMapping("/me/{eventId}")
     @ResponseStatus(HttpStatus.CREATED)
     public void findEventAndUpdate(@AuthenticationPrincipal User user, @PathVariable UUID eventId, @RequestBody EventDTO body) {
