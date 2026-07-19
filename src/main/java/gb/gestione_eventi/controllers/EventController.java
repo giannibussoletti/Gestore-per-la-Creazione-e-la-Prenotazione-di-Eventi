@@ -37,7 +37,6 @@ public class EventController {
         return new ResponseDTO("Evento salvato correttamente", save.getId(), LocalDateTime.now());
     }
 
-
     @GetMapping
     @ResponseStatus(HttpStatus.ACCEPTED)
     public Page<Event> getEvent(@RequestParam(defaultValue = "0") int page,
@@ -48,9 +47,13 @@ public class EventController {
 
     @DeleteMapping("/me/d/{eventId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void findEventByUserAndDelete(@PathVariable UUID eventId) {
-        this.eventService.findEventByUserAndDelete(eventId);
+    public void findEventByUserAndDelete(@AuthenticationPrincipal User user, @PathVariable UUID eventId) {
+        this.eventService.findEventByUserAndDelete(user, eventId);
     }
-    // TODO Create un PUT mapping per modificare un eventuale evento creato dall'utente
 
+    @PutMapping("/me/{eventId}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void findEventAndUpdate(@AuthenticationPrincipal User user, @PathVariable UUID eventId, @RequestBody EventDTO body) {
+        this.eventService.updateEvent(user, eventId, body);
+    }
 }
