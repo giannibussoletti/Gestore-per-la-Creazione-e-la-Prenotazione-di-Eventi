@@ -1,102 +1,144 @@
-# Gestore per la Creazione e la Prenotazione di Eventi
+# Event Management & Booking API
 
-Un backend sviluppato in Spring Boot per la gestione completa di eventi. Il sistema permette a due diverse tipologie di utenti (Utente standard e Organizzatore) di interagire con la piattaforma in base ai propri permessi, gestendo l'intero ciclo di vita di un evento e delle relative prenotazioni.
-
----
-
-## 🎯 Funzionalità Principali
-
-Il sistema è basato su ruoli (Role-Based Access Control) protetto da autenticazione JWT:
-
-**Organizzatore:**
-* Creazione di nuovi eventi.
-* Modifica o cancellazione degli eventi creati.
-* Visualizzazione di un pannello personale con tutti i propri eventi.
-
-**Utente:**
-* Esplorazione degli eventi disponibili.
-* Prenotazione del proprio posto a un evento.
-* Cancellazione (annullamento) della propria prenotazione.
-* Visualizzazione dello storico delle proprie prenotazioni.
+Backend RESTful sviluppato con **Spring Boot** per la gestione completa di eventi e prenotazioni. La piattaforma distingue due tipologie di utenti, **Utente** e **Organizzatore**, ciascuna con permessi dedicati, e copre l'intero ciclo di vita di un evento: dalla creazione alla prenotazione, fino all'annullamento.
 
 ---
 
-## 🛠 Tecnologie Utilizzate
+## Indice
 
-* **Java:** Versione 25
-* **Framework:** Spring Boot (Spring Web, Spring Data JPA, Spring Security)
-* **Database:** PostgreSQL
-* **Sicurezza:** JWT (JSON Web Token) per l'autenticazione e l'autorizzazione
+- [Funzionalità principali](#-funzionalità-principali)
+- [Stack tecnologico](#-stack-tecnologico)
+- [Requisiti](#-requisiti)
+- [Installazione e configurazione](#-installazione-e-configurazione)
+- [Avvio dell'applicazione](#-avvio-dellapplicazione)
+- [Test delle API con Postman](#-test-delle-api-con-postman)
+- [Documentazione degli endpoint](#-documentazione-degli-endpoint)
 
 ---
 
-## 🚀 Guida all'Avvio (Per Principianti)
+## 🎯 Funzionalità principali
 
-Segui questi passaggi per scaricare e avviare il progetto sul tuo computer.
+Il sistema implementa un controllo degli accessi basato sui ruoli (**Role-Based Access Control**), con autenticazione e autorizzazione gestite tramite **JWT**.
 
-### 1. Prerequisiti
-Prima di iniziare, assicurati di aver installato sul tuo computer:
-* **Java 25** (JDK)
-* **PostgreSQL** (e un client visivo come pgAdmin o DBeaver per comodità)
-* **IDE Java** (IntelliJ IDEA, Eclipse o VS Code)
-* **Postman** (per testare le richieste API)
+### Organizzatore
 
-### 2. Configurazione del Database
-1. Apri PostgreSQL e crea un nuovo database vuoto (es. chiamalo `gestione_eventi`).
-2. Non preoccuparti di creare le tabelle: ci penserà Hibernate in automatico al primo avvio grazie alla proprietà `ddl-auto=update`.
+- Creazione di nuovi eventi
+- Modifica ed eliminazione degli eventi di cui è autore
+- Consultazione di un'area personale con l'elenco dei propri eventi
 
-### 3. Configurazione dell'Ambiente
-Il progetto utilizza un file esterno per proteggere le credenziali sensibili. 
-1. Apri la cartella principale del progetto (la stessa dove si trova il file `pom.xml`).
-2. Crea un nuovo file e chiamalo esattamente **`env.properties`**.
-3. Incolla all'interno di questo file la seguente configurazione, sostituendo i valori con i tuoi:
+### Utente
 
-PORT=PORTA_A_SCELTA(Es. 5000)
-DB_URL=jdbc:postgresql://localhost:PORTA_A_SCELTA/nome_del_tuo_database
+- Consultazione degli eventi disponibili
+- Prenotazione di un posto a un evento
+- Annullamento della propria prenotazione
+- Consultazione dello storico delle proprie prenotazioni
 
+---
+
+## 🛠 Stack tecnologico
+
+| Ambito | Tecnologia |
+|---|---|
+| Linguaggio | Java 25 |
+| Framework | Spring Boot (Spring Web, Spring Data JPA, Spring Security) |
+| Database | PostgreSQL |
+| Sicurezza | JSON Web Token (JWT) |
+| Build tool | Maven |
+
+---
+
+## 📋 Requisiti
+
+Per l'esecuzione locale del progetto sono necessari:
+
+- **JDK 25**
+- **PostgreSQL**, con un client grafico opzionale (pgAdmin o DBeaver)
+- **IDE Java** (IntelliJ IDEA, Eclipse o VS Code)
+- **Postman** o un client REST equivalente per il test delle API
+
+---
+
+## 🔧 Installazione e configurazione
+
+### 1. Configurazione del database
+
+1. Creare in PostgreSQL un database vuoto (ad esempio `gestione_eventi`).
+2. Non è necessario creare manualmente le tabelle: lo schema viene generato automaticamente da Hibernate al primo avvio, grazie alla proprietà `ddl-auto=update`.
+
+### 2. Configurazione dell'ambiente
+
+Le credenziali sensibili sono gestite tramite un file esterno, escluso dal versionamento.
+
+1. Nella directory principale del progetto (la stessa in cui si trova `pom.xml`) creare un file denominato `env.properties`.
+2. Inserire la seguente configurazione, sostituendo i valori con quelli del proprio ambiente:
+
+```properties
+PORT=8080
+DB_URL=jdbc:postgresql://localhost:5432/gestione_eventi
 DB_USERNAME=postgres
+DB_PASSWORD=your_postgres_password
+JWT_SECRET=your_long_and_complex_secret_key
+```
 
-DB_PASSWORD=la_tua_password_di_postgres
-
-JWT_SECRET=inserisci_qui_una_chiave_segreta_molto_lunga_e_complessa_per_i_token
-
-### 4. Avvio dell'Applicazione
-
-* Apri il progetto con il tuo IDE preferito (es. IntelliJ IDEA, Eclipse, VS Code).
-* Attendi il completamento del download delle dipendenze da parte di Maven.
-* Avvia l'applicazione eseguendo la classe principale annotata con `@SpringBootApplication`.
-* In alternativa, utilizza il terminale integrato ed esegui il comando `./mvnw spring-boot:run`.
-* Verifica nella console che l'applicazione sia partita correttamente sulla porta specificata nel file delle proprietà (es. `8080`).
+> **Nota:** il valore di `JWT_SECRET` deve essere una stringa lunga e difficile da indovinare. Il file `env.properties` non deve mai essere condiviso né incluso nel repository.
 
 ---
 
-## 🧪 Testare il progetto con Postman
+## 🚀 Avvio dell'applicazione
 
-Poiché si tratta di un'applicazione backend senza interfaccia grafica, ti servirà **Postman** (o un client REST simile) per interfacciarti con le funzionalità.
+L'applicazione può essere avviata in due modalità:
 
-* **Registrazione (Signup):** Invia una richiesta `POST` all'indirizzo `http://localhost:8080/auth/signup`. Nel *Body* (selezionando il formato JSON), inserisci i dati per creare un nuovo utente o organizzatore.
-* **Accesso (Login):** Invia una richiesta `POST` all'indirizzo `http://localhost:8080/auth/login` contenente le credenziali appena create. La risposta conterrà il tuo **Token JWT**.
-* **Autenticazione delle richieste:** Copia il token JWT ricevuto dal login. Nelle successive richieste protette su Postman, recati nella scheda **Authorization**, seleziona la tipologia **Bearer Token** e incolla il token nel campo apposito.
+- **Da IDE:** aprire il progetto, attendere il download delle dipendenze Maven ed eseguire la classe principale annotata con `@SpringBootApplication`.
+- **Da terminale:**
+
+  ```bash
+  ./mvnw spring-boot:run
+  ```
+
+Il corretto avvio è confermato dalla console, che indica l'applicazione in ascolto sulla porta definita in `env.properties` (ad esempio `8080`).
 
 ---
 
-## 📡 Endpoint Principali
+## 🧪 Test delle API con Postman
 
-La seguente lista riassume le rotte esposte dall'applicazione:
+Trattandosi di un backend privo di interfaccia grafica, l'interazione con le funzionalità avviene tramite un client REST.
 
-### Autenticazione (Pubblici)
-* `POST /auth/signup` : Registrazione di un nuovo profilo.
-* `POST /auth/login` : Autenticazione e generazione del token JWT.
+1. **Registrazione** — `POST http://localhost:8080/auth/signup`
+   Il body, in formato JSON, contiene i dati per la creazione di un nuovo Utente o Organizzatore.
+2. **Login** — `POST http://localhost:8080/auth/login`
+   Il body contiene le credenziali registrate; la risposta restituisce il **token JWT**.
+3. **Autenticazione delle richieste protette**
+   Nella scheda **Authorization** di Postman selezionare il tipo **Bearer Token** e incollare il token ottenuto al login.
 
-### Eventi (Protetti)
-* `GET /events` : Recupero della lista di tutti gli eventi disponibili.
-* `DELETE /events/me/d/{eventId}` : Eliminazione di un evento (operazione consentita solo all'organizzatore che lo ha creato).
+---
 
-### Prenotazioni (Protetti)
-* `GET /bookings` : Recupero delle informazioni sulle prenotazioni.
-* `POST /bookings/{eventId}` : Creazione di una nuova prenotazione per un determinato evento.
-* `PATCH /bookings/{bookingId}` : Annullamento o aggiornamento di una prenotazione esistente.
+## 📡 Documentazione degli endpoint
 
-### Area Personale (Protetti)
-* `GET /users/me/events` : Visualizzazione di tutti gli eventi generati dall'organizzatore attualmente autenticato.
-* `GET /users/me/bookings` : Visualizzazione dello storico delle prenotazioni dell'utente attualmente autenticato.
+### Autenticazione (pubblici)
+
+| Metodo | Endpoint | Descrizione |
+|---|---|---|
+| `POST` | `/auth/signup` | Registrazione di un nuovo profilo |
+| `POST` | `/auth/login` | Autenticazione e generazione del token JWT |
+
+### Eventi (protetti)
+
+| Metodo | Endpoint | Descrizione |
+|---|---|---|
+| `GET` | `/events` | Elenco di tutti gli eventi disponibili |
+| `DELETE` | `/events/me/d/{eventId}` | Eliminazione di un evento (riservata all'organizzatore che lo ha creato) |
+
+### Prenotazioni (protetti)
+
+| Metodo | Endpoint | Descrizione |
+|---|---|---|
+| `GET` | `/bookings` | Recupero delle informazioni sulle prenotazioni |
+| `POST` | `/bookings/{eventId}` | Creazione di una prenotazione per un evento |
+| `PATCH` | `/bookings/{bookingId}` | Annullamento o aggiornamento di una prenotazione esistente |
+
+### Area personale (protetti)
+
+| Metodo | Endpoint | Descrizione |
+|---|---|---|
+| `GET` | `/users/me/events` | Eventi creati dall'organizzatore autenticato |
+| `GET` | `/users/me/bookings` | Storico delle prenotazioni dell'utente autenticato |
