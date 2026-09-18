@@ -23,9 +23,9 @@ import java.util.UUID;
 
 public class TokenFilter extends OncePerRequestFilter {
 
-    private HandlerExceptionResolver resolver;
-    private TokenToolkit tokenTools;
-    private UserService userService;
+    private final HandlerExceptionResolver resolver;
+    private final TokenToolkit tokenTools;
+    private final UserService userService;
 
     public TokenFilter(@Qualifier("handlerExceptionResolver") HandlerExceptionResolver resolver, TokenToolkit tokenTools, UserService userService) {
         this.resolver = resolver;
