@@ -47,8 +47,10 @@ public class EventService {
 
     public void findEventByUserAndDelete(User user, UUID id) {
         List<Event> eventList = this.findEventByUser(user);
-        if (eventList.stream().noneMatch(event -> event.getId() == id))
+        if (eventList.stream().noneMatch(event -> event.getId().equals(id))) {
+            System.out.println(eventList);
             throw new NotFoundException("Nessun Evento trovato");
+        }
         Event deleting = this.findById(id);
         this.eventRepository.delete(deleting);
     }
@@ -60,7 +62,7 @@ public class EventService {
     public void updateEvent(User user, UUID eventId, EventDTO body) {
         List<Event> eventList = this.findEventByUser(user);
         if (eventList.stream().noneMatch(event -> event.getId().equals(eventId)))
-            throw new NotFoundException("Nessun Evento trovato bla");
+            throw new NotFoundException("Nessun Evento trovato");
 
         Event found = this.eventRepository.findById(eventId).orElseThrow(() -> new NotFoundException("Nessun Evento trovato"));
         found.setPostiDisponibili(body.postiDisponibili());
